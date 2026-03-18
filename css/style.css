@@ -1,0 +1,938 @@
+/* ==========================================
+   全局样式重置与主题变量
+   作用：统一浏览器默认样式，定义全局主题，一键修改配色/尺寸
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==================================================
+   合并 style1.css 的附加样式（保留注释原样）
+   ================================================== */
+/* \u5168\u5c40\u6837\u5f0f\u91cd\u7f6e */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft Yahei", sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    /* 保持原有 overflow-x 设置，避免横向滚动 */
+}
+
+/* \u9876\u90e8\u5bfc\u822a\u6837\u5f0f (来自 style1) */
+.site-header {
+    background-color: #2c3e50; /* 覆盖原样式的背景色 */
+    color: white;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 100%; /* 使用变量高度 */
+}
+
+.logo-area .home-icon {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+}
+
+.main-nav .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 24px;
+}
+
+.nav-item .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.nav-item .nav-link:hover {
+    color: #3498db;
+}
+
+.header-right .lang-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* \u4e0b\u62c9\u9009\u9879\u680f\u6837\u5f0f (来自 style1) */
+.dropdown-bar {
+    background-color: #2c3e50;
+    height: 36px; /* 稍微变窄，避免遮挡下方内容 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 360px; /* 缩窄下拉栏占用宽度 */
+    max-width: 90%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+
+.map-select {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    min-width: 160px;
+    outline: none;
+    background-color: white;
+}
+
+.info-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.info-btn:hover {
+    background-color: #2980b9;
+}
+
+/* \u5730\u56fe\u5bb9\u5668\u6837\u5f0f (来自 style1) */
+.map-container {
+    position: relative;
+    width: 100vw;
+    /* 减少对额外变量的依赖，确保在不同页面中图片可见 */
+    height: calc(100vh - var(--header-height) - 40px);
+    overflow: hidden;
+    background-color: #eaeaea;
+}
+
+.subway-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    transition: transform 0.1s ease;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.subway-map:active {
+    cursor: grabbing;
+}
+
+/* \u7f29\u653e\u63a7\u5236\u6309\u94ae */
+.control-buttons {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    border: none;
+    background-color: rgba(44, 62, 80, 0.8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.control-btn:hover {
+    background-color: rgba(44, 62, 80, 1);
+}
+
+/* \u4fe1\u606f\u5f39\u7a97\u6837\u5f0f */
+.info-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.info-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 720px; /* 调整为更适合显示较多文字的宽度 */
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-body {
+    padding: 12px 20px 20px 20px;
+    background-color: white;
+    border-radius: 0 0 8px 8px;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 720px; /* 与 modal-content 保持一致 */
+}
+
+.modal-footer {
+    padding: 16px 20px;
+    background-color: #f5f5f5;
+    border-radius: 0 0 8px 8px;
+    font-size: 14px;
+}
+
+.modal-footer a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.modal-footer a:hover {
+    text-decoration: underline;
+}
+
+/* 当弹窗显示时确保内容垂直堆叠并居中 */
+.info-modal.show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-modal .modal-footer {
+    max-width: 720px;
+    width: 100%;
+}
+
+/* 根变量：全局主题配置，修改此处可一键更换主题 */
+:root {
+    /* 上海地铁品牌主色：红色 */
+    --primary-color: #e60012;
+    /* 功能区背景主色：深蓝色 */
+    --secondary-color: #003366;
+    /* 辅助色：白色（文字/图标） */
+    --white-color: #ffffff;
+    /* 正文默认色：深灰色 */
+    --text-color: #333333;
+    /* 导航hover高亮色 */
+    --nav-hover-color: #ffcc00;
+    /* 全局字体：跨平台无衬线字体 */
+    --font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    /* 头部固定高度，方便布局计算 */
+    --header-height: 60px;
+    /* 功能区固定高度 */
+    --function-height: 120px;
+    /* 预留扩展变量：深色模式配色、圆角、动画时长等 */
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    line-height: 1.5;
+    overflow-x: hidden;
+    /* 新增：避免内容被固定头部遮挡 */
+    padding-top: var(--header-height);
+}
+
+/* 清除列表默认样式 */
+ul, li {
+    list-style: none;
+}
+
+/* 统一链接样式 */
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+/* 图片自适应，避免溢出 */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 清除按钮默认样式 */
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+/* 使页面主体（main）在可用空间中伸展，保证页脚位于视口底部 */
+main {
+    flex: 1 0 auto;
+    display: block;
+}
+
+/* 清除输入框默认样式 */
+input {
+    font-family: inherit;
+    outline: none;
+    border: none;
+}
+
+/* ==========================================
+   头部导航样式
+   作用：固定在页面顶部，层级最高，保证在banner上方显示
+   ========================================== */
+.site-header {
+    width: 100%;
+    height: var(--header-height);
+    /* 修改：从absolute改为fixed，实现顶部固定 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--white-color);
+    /* 预留扩展：滚动时背景透明度变化 */
+}
+
+/* 头部容器：居中布局，限制最大宽度 */
+.header-container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #003366;
+}
+
+/* 左侧logo区域（仅保留home-icon） */
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.home-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.home-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 主导航菜单 */
+.main-nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-link {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 0;
+    position: relative;
+}
+
+/* 导航hover下划线动画 */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--nav-hover-color);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--nav-hover-color);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* 顶部右侧功能区（仅保留语言切换） */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.lang-link {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--white-color);
+}
+
+.lang-link:hover {
+    color: var(--nav-hover-color);
+}
+
+/* ==========================================
+   主视觉横幅区样式
+   作用：全屏大图展示，适配不同屏幕尺寸
+   ========================================== */
+.hero-banner {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-bg {
+    width: 100%;
+    height: 100%;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 站点标注：右下角定位 */
+.banner-label {
+    position: absolute;
+    right: 40px;
+    bottom: calc(var(--function-height) + 30px);
+    color: var(--white-color);
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* ==========================================
+   核心功能区样式
+   作用：覆盖在banner底部，仅保留快捷功能按钮组
+   ========================================== */
+.function-wrapper {
+    width: 100%;
+    height: var(--function-height);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 51, 102, 0.85);
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+    gap: 40px;
+    z-index: 99;
+}
+
+/* 快捷功能按钮组（全屏居中） */
+.shortcut-functions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1200px;
+}
+
+.function-item {
+    flex: 1;
+    text-align: center;
+}
+
+.function-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.function-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.function-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.function-text {
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   右侧悬浮按钮样式
+   作用：固定在页面右侧，垂直居中，层级最高
+   ========================================== */
+.float-buttons {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 999;
+}
+
+.float-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--white-color);
+    color: var(--secondary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.float-btn:hover {
+    background: var(--secondary-color);
+    color: var(--white-color);
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   预留扩展区域样式
+   作用：为后续新增内容模块提供基础样式
+   ========================================== */
+.content-extend {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 60px 40px;
+}
+
+.site-footer {
+    width: 100%;
+    background: var(--secondary-color);
+    color: var(--white-color);
+    padding: 40px;
+}
+
+/* ==========================================
+   页脚样式
+   作用：展示版权、备案信息，预留友情链接扩展
+   ========================================== */
+.site-footer {
+    width: 100%;
+    background: var(--secondary-color); /* 复用全局深蓝色变量，保持品牌统一 */
+    color: rgba(255, 255, 255, 0.8); /* 浅白色文字，提升可读性 */
+    padding: 40px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* 顶部浅分割线 */
+}
+
+/* 页脚容器：居中布局，限制最大宽度 */
+.footer-container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* 移动端自动换行 */
+    gap: 20px;
+}
+
+/* 版权与备案信息区 */
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.copyright {
+    font-size: 14px;
+    color: var(--white-color); /* 版权文字高亮 */
+    font-weight: 500;
+}
+
+.icp-record {
+    font-size: 12px;
+    opacity: 0.7; /* 备案号弱化显示 */
+}
+
+/* 友情链接区 */
+.footer-links {
+    flex-shrink: 0; /* 避免链接区被压缩 */
+}
+
+.link-list {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap; /* 小屏自动换行 */
+}
+
+.link-item .link {
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+/* 链接hover效果：文字变亮+下划线 */
+.link-item .link:hover {
+    color: var(--white-color);
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* 更多链接特殊样式 */
+.more-link {
+    color: var(--nav-hover-color); /* 复用导航hover黄色，突出引导 */
+    font-weight: 600;
+}
+
+/* ==========================================
+   页脚响应式适配
+   ========================================== */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start; /* 移动端左对齐 */
+        padding: 0 20px;
+    }
+    
+    .link-list {
+        gap: 15px;
+    }
+    
+    .copyright, .icp-record {
+        font-size: 12px;
+    }
+}
+
+
+
+/* ==========================================
+   响应式适配预留
+   作用：适配平板、移动端，可直接扩展完善
+   ========================================== */
+@media screen and (max-width: 1440px) {
+    .nav-list {
+        gap: 20px;
+    }
+    .function-text {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header-container {
+        padding: 0 20px;
+    }
+    .main-nav {
+        display: none; /* 移动端可扩展为汉堡菜单 */
+    }
+    .function-wrapper {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+        gap: 20px;
+    }
+    .shortcut-functions {
+        flex-wrap: wrap;
+    }
+    .function-item {
+        flex: 0 0 25%;
+    }
+}
+
+/* ==========================================
+   新闻/通告/建设规划 列表页面样式
+   作用：顶部导航不变，列表从上到下排列，使用浅色细分割线，页脚右上方显示分页
+   ========================================== */
+.news-page {
+    padding: 20px 0 60px; /* 顶部由固定头部覆盖，无需额外 margin-top */
+}
+.page-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.page-title {
+    font-size: 22px;
+    color: #003366;
+    margin-bottom: 12px;
+}
+.news-list {
+    display: block;
+}
+.news-item {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06); /* 浅色细分割线 */
+}
+.news-item:last-child {
+    border-bottom: none;
+}
+.news-title {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 6px;
+}
+.news-meta {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+}
+.news-summary {
+    font-size: 14px;
+    color: #444;
+}
+
+.pagination {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end; /* 右侧对齐 */
+}
+.pagination-right {
+    background: transparent;
+    color: #333;
+    font-size: 14px;
+    padding: 6px 8px;
+}
+
+/* 在页脚右侧上方显示分页小组件（针对页面底部） */
+.site-footer + .pagination {
+    position: relative;
+}
+
+@media screen and (max-width: 768px) {
+    .page-container { padding: 12px; }
+    .page-title { font-size: 18px; }
+}
+
+
+/* =========================================
+   线网示意页面 - 下拉选项栏样式
+   作用：和导航栏同高同色，包含下拉框+信息按钮
+= */
+.dropdown-bar {
+    width: 100%;
+    height: var(--header-height); /* 和导航栏同高 */
+    background: rgba(0, 0, 0, 0.2); /* 和导航栏同色 */
+    position: fixed;
+    top: var(--header-height); /* 位于导航栏下方 */
+    left: 0;
+    z-index: 998; /* 低于导航栏，高于图片区 */
+}
+
+.dropdown-container {
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 下拉框左，i按钮右 */
+}
+
+/* 下拉选项框：支持7汉字+20字母显示 */
+.map-select {
+    width: 300px; /* 7汉字≈70px + 20字母≈140px + 内边距≈90px */
+    height: 40px;
+    padding: 0 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    background: white;
+    color: #333;
+}
+
+/* 信息按钮：i图标 */
+.info-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    color: #003366;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.info-btn:hover {
+    background: #003366;
+    color: white;
+}
+
+/* ==========================================
+   线网示意页面 - 图片展示区域样式
+   ========================================== */
+.map-container {
+    width: 100%;
+    height: calc(100vh - var(--header-height) * 2); /* 减去导航栏+下拉栏高度 */
+    position: fixed;
+    top: calc(var(--header-height) * 2); /* 位于下拉栏下方 */
+    left: 0;
+    overflow: hidden; /* 隐藏超出区域的图片 */
+    background: #f5f5f5;
+}
+
+/* 地铁线网图：初始居中，支持拖拽缩放 */
+.subway-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: grab; /* 抓手样式 */
+    transition: transform 0.05s ease; /* 拖拽平滑过渡 */
+}
+
+.subway-map:active {
+    cursor: grabbing; /* 按住时抓手样式 */
+}
+
+/* 缩放控制按钮：右下角垂直排列 */
+.control-buttons {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 99;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    background: rgba(0, 51, 102, 0.8);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(0, 51, 102, 1);
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   信息弹窗样式
+   ========================================== */
+.info-modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-btn:hover {
+    color: #e60012;
+}
+
+.modal-content h3 {
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: #333;
+    line-height: 1.6;
+}

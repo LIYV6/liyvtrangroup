@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息通告 - 服务器轨道交通一览</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 页面头部：品牌logo、主导航、顶部功能区，层级最高 -->
+    <header class="site-header">
+        <div class="header-container">
+            <!-- 左侧品牌区：仅保留首页快捷入口-->
+            <div class="logo-area">
+                <!-- 首页图标快捷入口 -->
+                <a href="index.html" class="home-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- 主导航菜单：官网核心页面入口 -->
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="news.html" class="nav-link">新闻中心</a></li>
+                    <li class="nav-item"><a href="notices.html" class="nav-link">信息通告</a></li>
+                    <li class="nav-item"><a href="line-map.html" class="nav-link">线网示意</a></li>
+                    <li class="nav-item"><a href="https://mtr-query.mcbar.cc" target="_blank" class="nav-link">线路导航</a></li>
+                    <li class="nav-item"><a href="planning.html" class="nav-link">建设规划</a></li>
+                    <li class="nav-item"><a href="aboutcompany.html" class="nav-link">关于公司</a></li>
+                    <!-- 预留扩展位：可添加二级下拉菜单、额外导航项 -->
+                </ul>
+            </nav>
+
+            <!-- 顶部右侧功能区：仅保留语言切换（删除搜索框、无障碍阅读） -->
+            <div class="header-right">
+                <!-- 语言切换入口 -->
+                <a href="#" class="lang-link">EN</a>
+
+                <!-- 预留扩展位：可添加用户中心、登录入口 -->
+            </div>
+        </div>
+    </header>
+
+    <main class="news-page">
+        <div class="page-container">
+            <h1 class="page-title">信息通告</h1>
+            <div class="news-list" id="noticeList">
+                <article class="news-item">
+                    <h3 class="news-title">本网站开通啦！</h3>
+                    <p class="news-meta">2026-03-18 | 来源：本站</p>
+                    <p class="news-summary">由于我们是新开的网站，部分信息未及时更新，敬请谅解。</p>
+                </article>
+                <article class="news-item">
+                    <h3 class="news-title">友情链接</h3>
+                    <p class="news-meta">2026-03-18| 来源：本站</p>
+                    <p class="news-summary">关于另一个线路示意网站请点<a href="https://mtrmap.mcbar.cc" target="_blank" style="text-decoration: none; color: #004cff; font-weight: 600;">这里</a>。</p>
+                </article>
+            </div>
+
+            <!-- <div class="pagination">
+                <div class="pagination-right">&lt; 1 2 3 ... &gt;</div>
+            </div> -->
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p class="copyright">© 2026纯属游戏娱乐</p>
+            </div>
+             <div class="footer-links">
+                <ul class="link-list">
+                    <li class="link-item"><a href="aboutcompany.html" class="link">我们的声明</a></li>
+                    <li class="link-item"><a href="https://github.com/LIYV6" target="_blank" class="link">联系我们</a></li>
+                    <!-- 预留扩展位：可添加更多友情链接 -->
+                    <!-- <li class="link-item"><a href="#" class="link more-link">更多>></a></li> -->
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
