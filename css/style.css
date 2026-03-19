@@ -2,21 +2,18 @@
    全局样式重置与主题变量
    作用：统一浏览器默认样式，定义全局主题，一键修改配色/尺寸
    ========================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/*
+    style.css - 组织/清理版
+    说明：已合并重复的 reset、合并 modal、移除未在 HTML/JS 中引用的旧汉堡样式（.site-hamburger/.site-nav-menu），
+    并统一 hero 横幅规则。保留移动端使用的 .nav-toggle/.mobile-nav-panel/.mobile-nav-overlay。
+    修改日期：2026-03-19
+*/
 
-/* ==================================================
-   合并 style1.css 的附加样式（保留注释原样）
-   ================================================== */
-/* \u5168\u5c40\u6837\u5f0f\u91cd\u7f6e */
+/* 全局重置 */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Microsoft Yahei", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
 }
 
 body {
@@ -24,7 +21,6 @@ body {
     /* 保持原有 overflow-x 设置，避免横向滚动 */
 }
 
-/* \u9876\u90e8\u5bfc\u822a\u6837\u5f0f (来自 style1) */
 .site-header {
     background-color: #2c3e50; /* 覆盖原样式的背景色 */
     color: white;
@@ -69,7 +65,7 @@ body {
     font-size: 14px;
 }
 
-/* \u4e0b\u62c9\u9009\u9879\u680f\u6837\u5f0f (来自 style1) */
+/* 下拉选项栏样式  */
 .dropdown-bar {
     background-color: #2c3e50;
     height: 36px; /* 稍微变窄，避免遮挡下方内容 */
@@ -115,7 +111,7 @@ body {
     background-color: #2980b9;
 }
 
-/* \u5730\u56fe\u5bb9\u5668\u6837\u5f0f (来自 style1) */
+/* 地图容器样式 */
 .map-container {
     position: relative;
     width: 100vw;
@@ -140,7 +136,7 @@ body {
     cursor: grabbing;
 }
 
-/* \u7f29\u653e\u63a7\u5236\u6309\u94ae */
+/* 控制按钮样式 */
 .control-buttons {
     position: absolute;
     bottom: 20px;
@@ -165,8 +161,9 @@ body {
     background-color: rgba(44, 62, 80, 1);
 }
 
-/* \u4fe1\u606f\u5f39\u7a97\u6837\u5f0f */
+/* 信息弹窗样式 */
 .info-modal {
+    /* 信息弹窗：单一、合并后的定义，页面中通过添加 .show 控制显示 */
     position: fixed;
     top: 0;
     left: 0;
@@ -176,20 +173,7 @@ body {
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 999;
-}
-
-.info-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+    z-index: 9999;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -276,6 +260,14 @@ html, body {
     height: 100%;
 }
 
+/* 确保页面内锚点跳转时不会被固定头部遮挡 */
+[id] {
+    scroll-margin-top: calc(var(--header-height) + 12px);
+}
+
+/* 全局平滑滚动（页面内锚点/脚本滚动优先） */
+html { scroll-behavior: smooth; }
+
 body {
     display: flex;
     flex-direction: column;
@@ -336,30 +328,30 @@ input {
 .site-header {
     width: 100%;
     height: var(--header-height);
-    /* 修改：从absolute改为fixed，实现顶部固定 */
     position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
-    background: rgba(0, 0, 0, 0.2);
+    /* 顶部改为蓝色 */
+    background: #0b66a3; /* 深蓝 */
     color: var(--white-color);
-    /* 预留扩展：滚动时背景透明度变化 */
 }
 
 /* 头部容器：居中布局，限制最大宽度 */
 .header-container {
     width: 100%;
-    max-width: 1920px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 20px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #003366;
+    background-color: transparent;
+    position: relative; /* 允许内部绝对定位汉堡按钮 */
 }
 
-/* 左侧logo区域（仅保留home-icon） */
+/* 左侧logo区域 */
 .logo-area {
     display: flex;
     align-items: center;
@@ -370,14 +362,22 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    line-height: 0; /* 避 svg 垂直偏移 */
+}
+
+.home-icon svg {
+    display: block; /* 修复响应时 svg 偏离 */
+    width: 22px;
+    height: 22px;
 }
 
 .home-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255,255,255,0.06);
 }
+
 
 /* 主导航菜单 */
 .main-nav {
@@ -390,51 +390,49 @@ input {
     display: flex;
     align-items: center;
     gap: 28px;
+    /* 允许主导航在宽度不足时换行到多行 */
+    flex-wrap: nowrap; /* 默认不换行，媒体查询中修改为 wrap */
 }
 
 .nav-link {
     font-size: 16px;
     font-weight: 500;
-    padding: 8px 0;
     position: relative;
 }
 
-/* 导航hover下划线动画 */
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--nav-hover-color);
-    transition: width 0.3s ease;
-}
+/* 导航交互样式（hover/active/underline） */
+.nav-link.active { background: #ff8a00; color: #fff; }
+.nav-link::after{ content: ''; position: absolute; bottom:0; left:0; width:0; height:2px; background:var(--nav-hover-color); transition: width 0.3s ease; }
+.nav-link:hover{ color: var(--nav-hover-color); }
+.nav-link:hover::after{ width:100%; }
 
-.nav-link:hover {
-    color: var(--nav-hover-color);
-}
+/* ==========================
+   移动端导航（当前项目使用 .nav-toggle + .mobile-nav-panel）
+   说明：在窄屏时隐藏主导航，显示右侧汉堡按钮（使用 .nav-toggle），点击展开右侧滑出菜单
+   ========================== */
 
-.nav-link:hover::after {
-    width: 100%;
-}
+.nav-toggle{ display: none; background:none; color:var(--white-color); font-size:22px; line-height:1; width:44px; height:44px; border-radius:6px; }
 
-/* 顶部右侧功能区（仅保留语言切换） */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
+.mobile-nav-panel{ position:fixed; top:var(--header-height); right:0; width:260px; max-width:80vw; background:#0b66a3; color:white; box-shadow:-8px 0 24px rgba(0,0,0,0.15); transform:translateY(-10px); opacity:0; visibility:hidden; transition: opacity 220ms ease, transform 220ms ease; --menu-clip-x:100%; --menu-clip-y:0px; --menu-clip-radius:0px; clip-path: circle(var(--menu-clip-radius) at var(--menu-clip-x) var(--menu-clip-y)); z-index:1000; border-bottom-left-radius:8px; border-top-left-radius:8px; overflow:hidden; }
 
-.lang-link {
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--white-color);
-}
+.mobile-nav-panel.active{ transform:translateY(0); opacity:1; visibility:visible; left:0; right:0; width:100%; max-width:none; border-bottom-left-radius:0; border-top-left-radius:0; transition: clip-path 360ms ease, opacity 220ms ease, transform 220ms ease; }
 
-.lang-link:hover {
-    color: var(--nav-hover-color);
-}
+.mobile-nav-panel .mobile-nav-list{ display:flex; flex-direction:column; }
+.mobile-nav-panel .mobile-nav-item a{ display:block; padding:14px 18px; color:white; border-bottom:1px solid rgba(255,255,255,0.06); }
+
+.nav-toggle.active{ font-size:20px; }
+
+/* 半透明遮罩，当移动面板展开时显示，点击可关闭 */
+.mobile-nav-overlay{ position:fixed; inset:var(--header-height) 0 0 0; top:var(--header-height); left:0; right:0; bottom:0; background:rgba(0,0,0,0.35); opacity:0; visibility:hidden; transition:opacity 200ms ease; z-index:990; }
+.mobile-nav-overlay.active{ opacity:1; visibility:visible; }
+
+/* 窄屏断点 */
+@media (max-width: 900px){ .main-nav{ display:none; } .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; position:absolute; right:16px; top:50%; transform:translateY(-50%); } }
+@media (max-width:420px){ .mobile-nav-panel{ width:86vw; } }
+
+
+/* 注意：旧版 .site-hamburger / .site-nav-menu 规则已移除，因为当前模板使用 .nav-toggle + .mobile-nav-panel 组合实现移动端导航。
+    如需恢复旧方案，可参考项目历史记录。 */
 
 /* ==========================================
    主视觉横幅区样式
@@ -442,20 +440,28 @@ input {
    ========================================== */
 .hero-banner {
     width: 100%;
+    /* 占据整个视口高度，减去固定头部高度，确保大图“覆盖一个屏幕” */
     height: calc(100vh - var(--header-height));
     position: relative;
     overflow: hidden;
+    z-index: 0; /* 在 header 之下 */
 }
 
 .banner-bg {
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .banner-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* 保证整张图完整可见 */
+    display: block;
 }
 
 /* 站点标注：右下角定位 */
@@ -565,149 +571,257 @@ input {
     transform: scale(1.05);
 }
 
+/* 汉堡菜单按钮（移动端） */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white-color);
+    font-size: 22px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+/* 当导航打开时的样式 */
+.nav-list.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: #0b66a3;
+    padding: 12px 16px;
+    gap: 8px;
+    z-index: 999;
+}
+
+/* 小屏时调整页脚为单列堆叠并增加内边距 */
+@media (max-width: 768px) {
+    .nav-toggle { display: inline-block; }
+    .main-nav { display: block; }
+    .nav-list { display: none; }
+    .nav-list.open { display: flex; }
+
+    .footer-nav-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .main-footer { padding: 24px 0; }
+    .container[style] { padding-left: 16px; padding-right: 16px; }
+}
+
 /* ==========================================
    预留扩展区域样式
    作用：为后续新增内容模块提供基础样式
    ========================================== */
 .content-extend {
     width: 100%;
-    max-width: 1920px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 40px;
+    padding: 12px 12px; /* 进一步减少外层间距 */
 }
 
-.site-footer {
+/* 卡片化每个分区 */
+.section-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 6px; /* 小间隙，卡片不相连 */
+}
+
+/* 减少 section 之间间距 */
+.page-section {
+    margin-bottom: 6px; /* 更紧凑 */
+}
+
+.banner-img { display: block; }
+
+.section-card h2 { margin: 0 0 8px 0; font-size: 18px; }
+.section-card .preview-item { margin: 0 0 6px 0; }
+.section-card p { margin: 0 0 8px 0; }
+
+/* Hero 横幅：统一规则，优先保证图片完整可见（object-fit: contain）并占据视口-头部高度 */
+/* Hero 横幅：覆盖整个视口（cover），并在 header 之下显示，保持页面其余内容不被遮挡 */
+
+/* Hero 横幅：使用背景图作为整页背景并保留顶部 3/4 空白区域
+   设计说明：
+   - 背景图由 .hero-banner 的 background-image 提供，使用 cover 保证视觉填充。
+   - 通过 .hero-inner 将可见交互区域限制在底部 25%（1/4），顶部 75% 为预留空白区。
+   - 使用 margin-top 负值补偿 body 的 padding-top（header 固定高度）。
+*/
+.hero-banner {
     width: 100%;
-    background: var(--secondary-color);
-    color: var(--white-color);
-    padding: 40px;
+    height: calc(100vh); /* 首屏高度占满视口（不包含 header，因为 body 有 padding-top） */
+    margin-top: 0;
+    min-height: 480px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.hero-banner .banner-img {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    object-fit: cover;
+    display: block;
+}
+
+/* Scroll snap：使首屏与次屏在竖直滚动时产生平滑对齐过渡 */
+#snap-container {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth; /* 现代浏览器平滑滚动 */
+}
+
+.snap-page {
+    scroll-snap-align: start;
+    min-height: calc(100vh - var(--header-height));
+}
+
+/* 微交互：为从第一屏滑动到第二屏添加淡入过渡 */
+#second-screen { animation: fadeInUp 420ms ease both; }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* hero-inner 固定在底部 25% 区域，用于放置标注/按钮/CTA 等 */
+.hero-inner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 25vh; /* 底部 25% 可见互动区域 */
+    min-height: 120px; /* 可根据需要调整 */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 右下角放置 label */
+    padding: 0 20px 20px 20px;
+    z-index: 2;
+}
+
+/* 可选遮罩与标注 */
+.hero-banner .banner-overlay { position: absolute; inset:0; background: rgba(0,0,0,0.0); z-index:1; }
+.hero-banner .banner-label { color:#fff; background: rgba(0,0,0,0.35); padding:6px 10px; border-radius:4px; }
+
+/* 轮播功能已移除：原有 .carousel-slides/.slide 规则已删除 */
+/* 导航自适应：中等宽度行为已恢复为不换行，窄屏隐藏主导航仅显示汉堡按钮 */
+/* 保持导航不换行（默认行为，窄屏通过其他 media query 隐藏主导航） */
+@media (max-width: 900px) {
+    .main-nav { display: none; }
+    .nav-toggle { display: inline-flex; }
 }
 
 /* ==========================================
    页脚样式
    作用：展示版权、备案信息，预留友情链接扩展
    ========================================== */
-.site-footer {
+.main-footer {
     width: 100%;
-    background: var(--secondary-color); /* 复用全局深蓝色变量，保持品牌统一 */
-    color: rgba(255, 255, 255, 0.8); /* 浅白色文字，提升可读性 */
-    padding: 40px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* 顶部浅分割线 */
+    background-color: #f0f0f0; /* 灰色背景 */
+    color: #333333;
+    padding: 32px 0;
 }
 
-/* 页脚容器：居中布局，限制最大宽度 */
-.footer-container {
-    width: 100%;
-    max-width: 1920px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* 移动端自动换行 */
-    gap: 20px;
+/* 页脚导航网格布局：4列等宽 */
+.footer-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
 }
 
-/* 版权与备案信息区 */
-.footer-info {
+/* 单个导航列标题样式 */
+.footer-nav-column h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: var(--mtr-text-white);
+}
+
+/* 导航链接列表样式 */
+.footer-nav-column ul {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
-.copyright {
+.footer-nav-column ul li a {
     font-size: 14px;
-    color: var(--white-color); /* 版权文字高亮 */
-    font-weight: 500;
+    color: #cccccc;
+    transition: color 0.2s ease;
 }
 
-.icp-record {
-    font-size: 12px;
-    opacity: 0.7; /* 备案号弱化显示 */
-}
+/* 全站：页脚链接颜色统一为深灰，便于阅读（可全局覆盖） */
+.main-footer .footer-nav-column ul li a { color: #555; }
 
-/* 友情链接区 */
-.footer-links {
-    flex-shrink: 0; /* 避免链接区被压缩 */
-}
-
-.link-list {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap; /* 小屏自动换行 */
-}
-
-.link-item .link {
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-/* 链接hover效果：文字变亮+下划线 */
-.link-item .link:hover {
-    color: var(--white-color);
-    opacity: 1;
+/* 链接hover效果：变白，显示下划线 */
+.footer-nav-column ul li a:hover {
+    color: var(--mtr-text-white);
     text-decoration: underline;
 }
 
-/* 更多链接特殊样式 */
-.more-link {
-    color: var(--nav-hover-color); /* 复用导航hover黄色，突出引导 */
-    font-weight: 600;
+/* 页脚分隔线 */
+.footer-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #444444;
+    margin-bottom: 25px;
 }
 
-/* ==========================================
-   页脚响应式适配
-   ========================================== */
-@media screen and (max-width: 768px) {
-    .footer-container {
-        flex-direction: column;
-        align-items: flex-start; /* 移动端左对齐 */
-        padding: 0 20px;
-    }
-    
-    .link-list {
-        gap: 15px;
-    }
-    
-    .copyright, .icp-record {
-        font-size: 12px;
-    }
+/* 版权信息区域样式 */
+.footer-copyright {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-
-
-/* ==========================================
-   响应式适配预留
-   作用：适配平板、移动端，可直接扩展完善
-   ========================================== */
-@media screen and (max-width: 1440px) {
-    .nav-list {
-        gap: 20px;
-    }
-    .function-text {
-        font-size: 12px;
-    }
+.footer-copyright p {
+    font-size: 14px;
+    color: #999999;
 }
 
-@media screen and (max-width: 768px) {
-    .header-container {
-        padding: 0 20px;
+/* 版权链接样式 */
+.copyright-links {
+    display: flex;
+    gap: 20px;
+}
+
+.copyright-links a {
+    font-size: 13px;
+    color: #999999;
+    transition: color 0.2s ease;
+}
+
+.copyright-links a:hover {
+    color: var(--mtr-text-white);
+    text-decoration: underline;
+}
+
+/* ========================================
+   响应式适配样式
+   作用：针对不同屏幕尺寸调整布局，保证移动端、平板端的浏览体验，适配主流设备尺寸
+   ======================================== */
+/* 旧的 .site-hamburger/.site-nav-menu 已在本次重构中移除（见顶部说明） */
+
+/* 响应式（手机）调优：版权区堆叠 */
+@media (max-width: 768px) {
+    .footer-copyright { flex-direction: column; align-items: flex-start; }
+    .copyright-links { flex-wrap: wrap; }
+}
+
+/* 小屏手机适配：屏幕宽度小于480px时生效 */
+@media (max-width: 480px) {
+    /* 页脚导航：2列改1列 */
+    .footer-nav-grid {
+        grid-template-columns: 1fr;
     }
-    .main-nav {
-        display: none; /* 移动端可扩展为汉堡菜单 */
-    }
-    .function-wrapper {
-        flex-direction: column;
-        height: auto;
-        padding: 20px;
-        gap: 20px;
-    }
-    .shortcut-functions {
-        flex-wrap: wrap;
-    }
-    .function-item {
-        flex: 0 0 25%;
+    /* 顶部快捷链接：只保留联系我们 */
+    .top-quick-links a:nth-child(n+2) {
+        display: none;
     }
 }
 

@@ -14,10 +14,10 @@
 <body>
     <!-- 页面头部：主导航、顶部功能区，层级最高 -->
     <header class="site-header">
-        <div class="header-container">
-            <!-- 左侧：首页快捷入口-->
-            <div class="logo-area">
-                <!-- 首页图标 -->
+        <div class="header-container"><!-- 左侧：首页快捷入口-->
+
+            <div class="logo-area"><!-- 首页图标 -->
+
                 <a href="index.html" class="home-icon">
                     <svg width="20" viewBox="0 0 24 24" height="20"  fill="none" stroke="white" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -26,63 +26,171 @@
                 </a>
             </div>
 
-            <!-- 主导航菜单-->
+            <!-- 汉堡菜单切换按钮-->
+            <button class="nav-toggle" aria-label="菜单">☰</button>
+
+            <!-- 主导航菜单 -->
             <nav class="main-nav">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="news.html" class="nav-link">新闻中心</a></li>
-                    <li class="nav-item"><a href="notices.html" class="nav-link">信息通告</a></li>
-                    <li class="nav-item"><a href="line-map.html" class="nav-link">线网示意</a></li>
-                    <li class="nav-item"><a href="https://mtr-query.mcbar.cc" target="_blank" class="nav-link">线路导航</a></li>
-                    <li class="nav-item"><a href="planning.html" class="nav-link">建设规划</a></li>
-                    <li class="nav-item"><a href="aboutcompany.html" class="nav-link">关于线路公司</a></li>
-                    <!-- 预留扩展位：可添加二级下拉菜单、额外导航项 -->
+                    <li class="nav-item"><a href="notices.html" class="nav-link">通知公告</a></li>
+                    <li class="nav-item"><a href="lineplan.html" class="nav-link">线路建设</a></li>
+                    <li class="nav-item"><a href="linemap.html" class="nav-link">线网示意</a></li>
+                    <li class="nav-item"><a href="https://mtr-query.mcbar.cc" target="_blank" class="nav-link">路线导航</a></li>
+                    <li class="nav-item"><a href="aboutcompany.html" class="nav-link">关于公司</a></li>
+                    <li class="nav-item"><a href="moreinfo.html" class="nav-link">更多信息</a></li>
                 </ul>
             </nav>
 
             <!-- 顶部右侧-->
-            <div class="header-right">
-                <!-- 语言切换-->
-                <a href="#" class="lang-link">EN</a>
+            
 
-                <!-- 预留扩展-->
-            </div>
-        </div>
+        
+    </div>
     </header>
 
-    <!-- 主视觉横幅区：首页核心展示位，全屏大图 -->
-    <section class="hero-banner">
-        <!-- 背景图：替换images/banner.png为大图 -->
-        <div class="banner-bg">
-            <img src="images/banner.png" alt="地平线" class="banner-img">
-        </div>
-        <!-- 站点标注：对应原图右下角站点说明 -->
-        <div class="banner-label">
-            <span>地平线</span>
-        </div>
-    </section>
+    <!-- 主视觉横幅区：已移入 snap 容器的第一屏，使用 <img> 展示静态封面 -->
+
+    <!-- 为实现“向下滑动到第二页”的体验，使用 scroll-snap 容器包裹 hero 与下方内容 -->
+    <main id="snap-container">
+        <section id="first-screen" class="snap-page">
+            <div class="hero-banner" id="section-banner">
+                <img src="images/abcd.png" alt="站点横幅" class="banner-img">
+                <div class="hero-inner">
+                    <div class="banner-label">
+                        <span>首页图</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="second-screen" class="snap-page">
+            <!-- 原始六个区块：按导航顺序排列 -->
+            <main>
+                <section id="section-notices" class="page-section">
+                    <div class="content-extend">
+                        <div class="section-card">
+                            <h2>通知公告</h2>
+                            <article class="preview-item">
+                                <h3><a href="notices.html#kaitong">本网站开通啦！</a></h3>
+                                <p class="meta">2026-03-18 | 来源：本站</p>
+                                <p class="summary">部分信息未及时更新，详情请查看通告页面。</p>
+                            </article>
+                            <p><a href="notices.html" style="color:blue;text-decoration:underline;text-underline-offset:2px">查看全部通告 &gt;</a></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-line-map" class="page-section">
+                    <div class="content-extend">
+                        <div class="section-card">
+                            <h2>线网示意</h2>
+                            <!-- <div class="map-preview">
+                                <img src="images/全图.png" alt="线网预览" style="max-width:320px; border-radius:6px;">
+                            </div> -->
+                            <p><a href="linemap.html" style="color:blue;text-decoration:underline;text-underline-offset:2px">查看完整线网 &gt;</a></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-navigation" class="page-section">
+                    <div class="content-extend">
+                        <div class="section-card">
+                            <h2>线路导航</h2>
+                            <p>外部线路导航工具，点击<a href="https://mtr-query.mcbar.cc" style="color:blue;text-decoration:underline;text-underline-offset:2px">此处</a>前往。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-planning" class="page-section">
+                    <div class="content-extend">
+                        <div class="section-card">
+                            <h2>建设规划</h2>
+                            <article class="preview-item">
+                                <h3><a href="lineplan.html">近期线路扩展计划发布</a></h3>
+                                <p class="meta">2026-03-18</p>
+                                <p class="summary">若干新线路规划正在评审阶段，详情请前往规划页查看。</p>
+                            </article>
+                            <p><a href="lineplan.html" style="color:blue;text-decoration:underline;text-underline-offset:2px">查看全部规划 &gt;</a></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-about" class="page-section">
+                    <div class="content-extend">
+                        <div class="section-card">
+                            <h2>关于公司</h2>
+                            <article class="preview-item">
+                                <h3><a href="aboutcompany.html#liyu-transport-group">鲤鱼交通集团</a></h3>
+                                <p class="meta">最后更新时间：2026-03-18</p>
+                                <p class="summary">更多详情请查看关于页面。</p>
+                            </article>
+                            <p><a href="aboutcompany.html" style="color:blue;text-decoration:underline;text-underline-offset:2px">了解更多 &gt;</a></p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </section>
+    </main>
 
     <!-- 预留扩展区：可添加内容 -->
     <!--<section class="content-extend"></section>
 
     
     <!-- 页脚区 -->
-<footer class="site-footer">
-    <div class="footer-container">
-        <!-- 左侧 -->
-        <div class="footer-info">
-            <p class="copyright">© 2026纯属游戏娱乐</p>
-            
+
+<!-- 网站页脚：包含辅助导航链接、版权信息、合规声明、联系方式等全站底部信息，是全站辅助导航的核心区域 -->
+    <footer class="main-footer">
+        <div class="container" style="max-width:1200px; margin:0 auto; padding:20px;">
+            <!-- 页脚导航链接区域：分多列展示不同板块的辅助链接，与官网结构保持一致 -->
+            <div class="footer-nav-grid">
+                <div class="footer-nav-column">
+                    <h4>通知公告</h4>
+                    <ul>
+                        <li><a href="notices.html#passenger-rule">乘客守则</a></li>
+                        <li><a href="#">最新消息</a></li>
+                        <li><a href="#">信息公开</a></li>
+                        <li><a href="#">咨询交流</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>线路建设</h4>
+                    <ul>
+                        <li><a href="#">线路规划</a></li>
+                        <li><a href="#">建设动态</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>关于公司</h4>
+                    <ul>
+                        <li><a href="aboutcompany.html#liyu-transport-group">鲤鱼交通集团</a></li>
+                        <li><a href="aboutcompany.html#fuliang-railway">傅铁</a></li>
+                        <li><a href="aboutcompany.html#dayiwen-railway">怡铁</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>更多信息</h4>
+                    <ul>
+                        <li><a href="moreinfo.html#service-purpose">服务宗旨</a></li>
+                        <li><a href="moreinfo.html#corporate-culture">企业文化</a></li>
+                        <li><a href="moreinfo.html#service-disclaimer">服务免责声明</a></li>
+                        <li><a href="moreinfo.html#privacy-statement">隐私声明</a></li>
+                        <li><a href="moreinfo.html#copyright-statement">版权声明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 页脚分隔线 -->
+            <div class="footer-divider"></div>
+            <!-- 版权与合规信息区域：包含版权声明、合规链接 -->
+            <div class="footer-copyright">
+                <p>© 2026 鲤鱼交通集团 版权所有</p>
+                <div class="copyright-links">
+                    <a href="moreinfo.html#copyright-statement">版权声明</a>
+                    <a href="moreinfo.html#privacy-statement">隐私声明</a>
+                    <a href="moreinfo.html#service-disclaimer">服务声明</a>
+                </div>
+            </div>
         </div>
-        <div class="footer-links">
-                <ul class="link-list">
-                    <li class="link-item"><a href="aboutcompany.html" class="link">我们的声明</a></li>
-                    <li class="link-item"><a href="https://github.com/LIYV6" target="_blank" class="link">联系我们</a></li>
-                    <!-- 预留扩展位：可添加友情链接 -->
-                    <!-- <li class="link-item"><a href="#" class="link more-link">更多>></a></li> -->
-                </ul>
-        </div>
-    </div>
-</footer>
+    </footer>
 
     <!-- 引入外部交互脚本，统一管理逻辑 -->
     <script src="js/main.js"></script>

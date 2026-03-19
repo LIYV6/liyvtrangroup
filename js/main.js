@@ -1,42 +1,164 @@
-/* ==========================================
-   上海地铁官网首页交互脚本
-   作用：实现页面基础交互，预留完整扩展空间
-   ========================================== */
+/* 简洁主脚本：包含移动汉堡菜单逻辑和页面通用交互（高频、无副作用） */
 
-// DOM加载完成后执行所有逻辑
-document.addEventListener('DOMContentLoaded', function() {
-    /* ==========================================
-       预留扩展功能区
-       以下为可直接扩展的功能插槽，按需启用即可
-       ========================================== */
-    
-    // 预留扩展1：导航栏滚动效果（滚动时切换头部背景）
-    /*
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('.site-header');
-        header.style.background = window.scrollY > 50 ? 'rgba(0, 51, 102, 0.95)' : 'rgba(0, 0, 0, 0.2)';
+document.addEventListener('DOMContentLoaded', function () {
+    const navToggle = document.querySelector('.nav-toggle');
+
+    // 创建移动菜单面板（如果页面中未存在）
+    let mobilePanel = document.querySelector('.mobile-nav-panel');
+    // 创建遮罩（如果页面中未存在）
+    let mobileOverlay = document.querySelector('.mobile-nav-overlay');
+    if (!mobilePanel) {
+        mobilePanel = document.createElement('div');
+        mobilePanel.className = 'mobile-nav-panel';
+        const ul = document.createElement('ul');
+        ul.className = 'mobile-nav-list';
+
+        // 收集主导航链接作为移动端菜单项
+        const mainNavLinks = document.querySelectorAll('.main-nav .nav-list .nav-item a');
+        mainNavLinks.forEach(a => {
+            const li = document.createElement('li');
+            li.className = 'mobile-nav-item';
+            const link = a.cloneNode(true);
+            // 保证点击后关闭面板并正常导航（使用统一关闭函数以触发动画）
+            link.addEventListener('click', function () {
+                closeMobileNav();
+            });
+            li.appendChild(link);
+            ul.appendChild(li);
+        });
+
+        mobilePanel.appendChild(ul);
+        document.body.appendChild(mobilePanel);
+    }
+
+    if (!mobileOverlay) {
+        mobileOverlay = document.createElement('div');
+        mobileOverlay.className = 'mobile-nav-overlay';
+        mobileOverlay.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(mobileOverlay);
+    }
+
+    // 切换函数：打开/关闭面板并切换按钮符号，使用 clip-path 从汉堡位置扩散
+    function openMobileNav() {
+        if (!navToggle) return;
+        // activate panel and overlay first so panel expands to full width
+        mobileOverlay.classList.add('active');
+        mobilePanel.classList.add('active');
+
+        // ensure layout updated
+        const btnRect = navToggle.getBoundingClientRect();
+        const panelRect = mobilePanel.getBoundingClientRect();
+        const originX = btnRect.left + btnRect.width / 2 - panelRect.left;
+        const originY = btnRect.top + btnRect.height / 2 - panelRect.top;
+
+        // compute max distance to panel corners after panel is active
+        const w = panelRect.width || window.innerWidth;
+        const h = panelRect.height || (window.innerHeight - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 60));
+        const d1 = Math.hypot(originX, originY);
+        const d2 = Math.hypot(w - originX, originY);
+        const d3 = Math.hypot(originX, h - originY);
+        const d4 = Math.hypot(w - originX, h - originY);
+        const radius = Math.ceil(Math.max(d1, d2, d3, d4));
+
+        mobilePanel.style.setProperty('--menu-clip-x', originX + 'px');
+        mobilePanel.style.setProperty('--menu-clip-y', originY + 'px');
+        // start from 0 then expand
+        mobilePanel.style.setProperty('--menu-clip-radius', '0px');
+
+        // trigger expansion on next frame
+        requestAnimationFrame(function () {
+            mobilePanel.style.setProperty('--menu-clip-radius', radius + 'px');
+        });
+
+        navToggle.classList.add('active');
+        navToggle.setAttribute('aria-expanded', 'true');
+        navToggle.textContent = '×';
+    }
+
+    function closeMobileNav() {
+        if (!navToggle) return;
+        // shrink clip to 0, hide overlay
+        mobilePanel.style.setProperty('--menu-clip-radius', '0px');
+        mobileOverlay.classList.remove('active');
+
+        // after clip transition finishes, remove active class
+        const onEnd = function (e) {
+            // some browsers report 'clip-path' other times 'clipPath'
+            if (!e || (e.propertyName && (e.propertyName.includes('clip') || e.propertyName.includes('clip-path')))) {
+                mobilePanel.classList.remove('active');
+                mobilePanel.removeEventListener('transitionend', onEnd);
+            }
+        };
+
+        mobilePanel.addEventListener('transitionend', onEnd);
+
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.textContent = '☰';
+    }
+
+    function toggleMobileNav() {
+        if (!mobilePanel.classList.contains('active')) openMobileNav(); else closeMobileNav();
+    }
+
+    if (navToggle) {
+        navToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            toggleMobileNav();
+        });
+    }
+
+    // 点击遮罩关闭
+    mobileOverlay.addEventListener('click', function () {
+        closeMobileNav();
     });
-    */
 
-    // 预留扩展2：banner轮播图功能（多图切换、自动播放、指示器）
-    /*
-    可在此添加轮播图逻辑，支持多张banner切换、自动播放、左右箭头等功能
-    */
+    // 点击页面空白处关闭
+    document.addEventListener('click', function (e) {
+        if (!mobilePanel.contains(e.target) && navToggle && !navToggle.contains(e.target)) {
+            closeMobileNav();
+        }
+    });
 
-    // 预留扩展3：导航二级下拉菜单功能
-    /*
-    可在此添加导航项hover显示二级下拉菜单的逻辑
-    */
+    // Esc 键关闭
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeMobileNav();
+        }
+    });
 
-    // 预留扩展4：返回顶部功能
-    /*
-    可在此添加滚动到一定距离显示返回顶部按钮，点击回到页面顶部的逻辑
-    */
+    // 触发一次以设置初始文本
+    if (navToggle && !navToggle.textContent.trim()) navToggle.textContent = '☰';
 
-    // 预留扩展5：站点选择弹窗功能
-    /*
-    可在此添加点击输入框弹出站点选择面板，支持线路筛选、站点搜索功能
-    */
-
-    console.log('上海地铁官网首页脚本加载完成');
+    // 平滑滚动/其他通用交互可在此添加（轻量、无副作用）
 });
+
+    /* 轮播功能已移除；保留移动导航与其他交互逻辑 */
+
+// 首屏自动滚动补充：在非触摸设备上，向下快速滚动会平滑跳转到第二屏
+(function () {
+    if ('ontouchstart' in window) return; // 触摸设备使用原生滚动
+    const snapContainer = document.getElementById('snap-container');
+    const second = document.getElementById('second-screen');
+    if (!snapContainer || !second) return;
+
+    let locked = false; // 防止重复触发
+    let deltaAccum = 0;
+    const THRESHOLD = 80; // 累积滚动阈值（像素），可调
+
+    function onWheel(e) {
+        if (locked) return;
+        // 只在首屏时触发
+        if (window.scrollY > 10) return;
+        deltaAccum += e.deltaY;
+        if (deltaAccum > THRESHOLD) {
+            locked = true;
+            second.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => { locked = false; deltaAccum = 0; }, 800);
+        }
+        // 轻微反向滚动清零
+        if (deltaAccum < 0) deltaAccum = 0;
+    }
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+})();

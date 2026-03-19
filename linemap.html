@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务器轨道交通一览</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 统一头部 -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <a href="index.html" class="home-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <button class="nav-toggle" aria-label="菜单">☰</button>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="notices.html" class="nav-link">通知公告</a></li>
+                    <li class="nav-item"><a href="lineplan.html" class="nav-link">线路建设</a></li>
+                    <li class="nav-item"><a href="linemap.html" class="nav-link">线网示意</a></li>
+                    <li class="nav-item"><a href="https://mtr-query.mcbar.cc" target="_blank" class="nav-link">路线导航</a></li>
+                    <li class="nav-item"><a href="aboutcompany.html" class="nav-link">关于公司</a></li>
+                    <li class="nav-item"><a href="moreinfo.html" class="nav-link">更多信息</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <!-- 预留扩展 -->
+            </div>
+        </div>
+
+    <!-- 下拉选项栏-->
+    <div class="dropdown-bar">
+        <div class="dropdown-container">
+            <select class="map-select" id="mapSelect">
+                <option value="全图" selected>全图 (Full Map)</option>
+                <option value="鲤湖湾州及鲤城">鲤湖湾州及鲤城 (Leewoowae & Li City)</option>
+                <option value="大都会区">大都会区 (Greater Politan Zone)</option>
+                <option value="第三城">第三城 (City Three)</option>
+                <option value="铜钿城">铜钿城 (Doondee City)</option>
+                <option value="铁路">铁路 (Railway Only)</option>
+            </select>
+            <button class="info-btn" id="infoBtn" title="Information">i</button>
+        </div>
+    </div>
+    </header>
+
+    <!-- 图片展示区域：核心交互区-->
+    <div class="map-container" id="mapContainer">
+        <img src="images/全图.png" alt="服务器轨道交通线网图" class="subway-map" id="subwayMap">
+        <div class="control-buttons">
+            <button class="control-btn" id="zoomIn">+</button>
+            <button class="control-btn" id="zoomOut">-</button>
+            <button class="control-btn" id="reset">⟳</button>
+        </div>
+    </div>
+
+    <!-- 信息弹窗 -->
+    <div class="info-modal" id="infoModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            <h2 id="modal-title">线路说明</h2>
+            <div class="modal-body" id="info-text">
+                <!-- Content injected via JS -->
+            </div>
+            <div class="modal-footer">
+                <p data-i18n="contact">信息提供: <a href="https://github.com/LIYV6" target="_blank">LIYV6</a> + <a href="https://github.com/frankniubi" target="_blank">Frank Lau</a></p>
+                <p style="margin-top: 0.5rem; opacity: 0.8; font-size: 0.75rem;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/linemap.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- 统一页脚（从首页复制）
+    <footer class="main-footer">
+        <div class="container" style="max-width:1200px; margin:0 auto; padding:20px;">
+            <div class="footer-nav-grid">
+                <div class="footer-nav-column">
+                    <h4>通知公告</h4>
+                    <ul>
+                        <li><a href="notices.html#passenger-rule">乘客守则</a></li>
+                        <li><a href="#">最新消息</a></li>
+                        <li><a href="#">信息公开</a></li>
+                        <li><a href="#">咨询交流</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>线路建设</h4>
+                    <ul>
+                        <li><a href="#">线路规划</a></li>
+                        <li><a href="#">建设动态</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>关于公司</h4>
+                    <ul>
+                        <li><a href="aboutcompany.html#liyu-transport-group">鲤鱼交通集团</a></li>
+                        <li><a href="aboutcompany.html#fuliang-railway">傅铁</a></li>
+                        <li><a href="aboutcompany.html#dayiwen-railway">怡铁</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-column">
+                    <h4>更多信息</h4>
+                    <ul>
+                        <li><a href="moreinfo.html#service-purpose">服务宗旨</a></li>
+                        <li><a href="moreinfo.html#corporate-culture">企业文化</a></li>
+                        <li><a href="moreinfo.html#service-disclaimer">服务免责声明</a></li>
+                        <li><a href="moreinfo.html#privacy-statement">隐私声明</a></li>
+                        <li><a href="moreinfo.html#copyright-statement">版权声明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            版权与合规信息区域：包含版权声明、合规链接
+            <div class="footer-copyright">
+                <p>© 2026 服务器交通信息展示处 版權所有</p>
+                <div class="copyright-links">
+                    <a href="moreinfo.html#copyright-statement">版权声明</a>
+                    <a href="moreinfo.html#privacy-statement">隐私声明</a>
+                    <a href="moreinfo.html#service-disclaimer">服务声明</a>
+                </div>
+            </div>
+        </div>
+    </footer> --> 
+</body>
+</html>
