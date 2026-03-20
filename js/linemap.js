@@ -28,12 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 线路说明文本：尝试从外部文件 line-info.json 加载（见项目根目录），若失败回退为内置默认文本
     const defaultLineInfo = {
-        "全图": { zh: "服务器轨道交通全图，包含所有已开通线路及规划线路。", en: "Full system map, including all opened and planned routes." },
-        "鲤湖湾州及鲤城": { zh: "鲤湖湾州及鲤城片区轨道交通线路，覆盖核心城区主要站点。", en: "Leewoowae & Li City area transit lines, covering main urban stations." },
-        "大都会区": { zh: "大都会区轨道交通线路，连接周边卫星城与核心区。", en: "Metropolitan area lines connecting satellite towns with the core area." },
-        "第三城": { zh: "第三城片区轨道交通线路，以通勤线路为主。", en: "City Three area lines focused on commuter services." },
-        "铜钿城": { zh: "铜钿城片区轨道交通线路，覆盖商业及居住区。", en: "Doondee City lines covering commercial and residential districts." },
-        "铁路": { zh: "仅显示铁路干线，不含城市轨道交通。", en: "Railway lines only; excludes urban transit lines." }
+        "全图": { zh: "服务器轨道交通全图，包含所有已开通线路及规划线路。", },
+        "鲤湖湾州及鲤城": { zh: "鲤湖湾州及鲤城片区轨道交通线路，覆盖核心城区主要站点。",},
+        "大都会区": { zh: "大都会区轨道交通线路，连接周边卫星城与核心区。", },
+        "第三城": { zh: "第三城片区轨道交通线路，以通勤线路为主。", },
+        "铜钿城": { zh: "铜钿城片区轨道交通线路，覆盖商业及居住区。", },
+        "铁路": { zh: "仅显示铁路干线，不含城市轨道交通。", }
     };
      let lineInfo = {};
     // 保存 promise，以便在用户点击时等待数据就绪
@@ -46,29 +46,27 @@ document.addEventListener('DOMContentLoaded', function() {
             return lineInfo;
         });
 
-    // 当前语言状态（zh | en），默认为中文
-    let currentLang = 'zh';
-    const langToggle = document.getElementById('langToggle');
+    // 语言支持已简化为中文，移除切换逻辑
 
     // ========== 信息按钮功能 ==========
     // 打开弹窗（注入对应线路说明），使用 class 控制显示以配合 CSS
     infoBtn.addEventListener('click', function() {
         const selectedValue = mapSelect.value;
         const item = lineInfo[selectedValue];
-        // 若数据尚未加载，显示加载提示并在加载完成后更新
+        // 若数据尚未加载，显示加载提示并在加载完成后更新（中文）
         if (!item) {
-            infoText.textContent = currentLang === 'en' ? 'Loading...' : '正在加载...';
-            document.getElementById('modal-title').textContent = currentLang === 'en' ? 'Line info' : '线路说明';
+            infoText.textContent = '正在加载...';
+            document.getElementById('modal-title').textContent = '线路说明';
             infoModal.classList.add('show');
             lineInfoPromise.then(() => {
-                const loaded = lineInfo[selectedValue] || { zh: '', en: '' };
-                infoText.textContent = currentLang === 'en' ? loaded.en : loaded.zh;
+                const loaded = lineInfo[selectedValue] || { zh: '' };
+                infoText.textContent = loaded.zh || '';
             });
             return;
         }
-        // 数据已就绪，直接显示
-        infoText.textContent = currentLang === 'en' ? item.en : item.zh;
-        document.getElementById('modal-title').textContent = currentLang === 'en' ? 'Line info' : '线路说明';
+        // 数据已就绪，直接显示（中文）
+        infoText.textContent = item.zh || '';
+        document.getElementById('modal-title').textContent = '线路说明';
         infoModal.classList.add('show');
     });
 
@@ -84,34 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-        // 语言切换按钮：点击切换 EN <-> ZH 并更新当前弹窗内容（若打开）
-        if (langToggle) {
-            langToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                currentLang = currentLang === 'zh' ? 'en' : 'zh';
-                // 切换按钮文本
-                langToggle.textContent = currentLang === 'en' ? 'EN' : 'ZH';
-                // 若弹窗为显示状态，立即更新内容（若数据尚未加载则等待 promise）
-                if (infoModal.classList.contains('show')) {
-                    const selectedValue = mapSelect.value;
-                    const item = lineInfo[selectedValue];
-                    if (item) {
-                        infoText.textContent = currentLang === 'en' ? item.en : item.zh;
-                        document.getElementById('modal-title').textContent = currentLang === 'en' ? 'Line info' : '线路说明';
-                    } else {
-                        // 等待加载完成后再更新
-                        lineInfoPromise.then(() => {
-                            const loaded = lineInfo[selectedValue] || { zh: '', en: '' };
-                            infoText.textContent = currentLang === 'en' ? loaded.en : loaded.zh;
-                            document.getElementById('modal-title').textContent = currentLang === 'en' ? 'Line info' : '线路说明';
-                        });
-                    }
-                }
-            });
-        }
-
-//     // ========== 图片拖拽功能 ==========
-    // 鼠标按下：开始拖拽（允许在顶部导航下的任意位置触发）
+// ========== 图片拖拽功能 ==========
+// 鼠标按下：开始拖拽（允许在顶部导航下的任意位置触发）
     document.addEventListener('mousedown', function(e) {
         // 仅当交互起点在图片容器内时开始（可随后拖出容器）
         const containerRect = mapContainer.getBoundingClientRect();
@@ -154,10 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
         isDragging = false;
     });
 
-    // ========== 图片缩放功能（滚轮+按钮） ==========
-    // 滚轮缩放：在顶部导航下任意位置都可用，保持鼠标点不动
+// ========== 图片缩放功能（滚轮+按钮） ==========
+// 滚轮缩放：在顶部导航下任意位置都可用，保持鼠标点不动
     document.addEventListener('wheel', function(e) {
-        // 仅在交互起点位于图片容器内时触发缩放
+// 仅在交互起点位于图片容器内时触发缩放
         const rect = mapContainer.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
@@ -204,11 +176,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 重置按钮：重置并使图片整体适配容器
     resetBtn.addEventListener('click', function() {
-        // 清除任何拖拽偏移、重置缩放
+    // 清除任何拖拽偏移、重置缩放
         posX = 0;
         posY = 0;
-    // 使用 cover 模式使图片充满容器（避免出现周围留白）
-    fitImageToContainer(true);
+    // 使用 contain 模式展示整张图片（确保不被裁切）
+    // 临时关闭过渡以避免闪烁
+    const prevTransition = subwayMap.style.transition;
+    subwayMap.style.transition = 'none';
+    fitImageToContainer(false);
+    // 强制回流，确保 transform 已应用
+    // eslint-disable-next-line no-unused-expressions
+    subwayMap.getBoundingClientRect();
+    subwayMap.style.transition = prevTransition || 'transform 0.05s ease';
     });
 
     // ========== 下拉框切换图片功能 ==========
@@ -218,12 +197,54 @@ document.addEventListener('DOMContentLoaded', function() {
         scale = 1;
         posX = 0;
         posY = 0;
-        updateMapTransform();
-        // 根据选中值切换图片（路径与选项名称对应）
-        subwayMap.src = `images/${selectedValue}.png`;
-    // 更新弹窗说明文本（根据当前语言）
-    const selItem = lineInfo[selectedValue] || { zh: '', en: '' };
-    infoText.textContent = currentLang === 'en' ? selItem.en : selItem.zh;
+        // 使用离屏预加载以避免切换时显示旧图或闪烁
+        const newSrc = `images/${selectedValue}.png`;
+        const pre = new Image();
+
+        // 临时隐藏当前图片，使用 opacity 淡入避免闪烁
+        const prevTransition = subwayMap.style.transition;
+        // 确保 opacity 可过渡（若之前未包含 opacity，则在恢复时添加）
+        subwayMap.style.transition = 'none';
+        subwayMap.style.opacity = '0';
+
+        pre.onload = function() {
+            // 图片已完全加载于内存，安全替换 src
+            subwayMap.src = newSrc;
+
+            // 重置变换参数，保证居中显示
+            scale = 1;
+            posX = 0;
+            posY = 0;
+
+            // 临时移除 transform 过渡，执行 fit
+            subwayMap.style.transition = 'none';
+            fitImageToContainer(false);
+            // 强制回流
+            // eslint-disable-next-line no-unused-expressions
+            subwayMap.getBoundingClientRect();
+
+            // 恢复过渡并添加 opacity 过渡以实现平滑淡入
+            subwayMap.style.transition = prevTransition || 'transform 0.05s ease, opacity 180ms ease';
+            // 淡入显示
+            subwayMap.style.opacity = '1';
+
+            // 更新弹窗说明文本（中文）
+            const selItem = lineInfo[selectedValue] || { zh: '' };
+            infoText.textContent = selItem.zh || '';
+        };
+
+        pre.onerror = function() {
+            // 预加载失败时回退到全图并提示（保持之前行为）
+            alert('当前线路图加载失败，已自动切换为全图，请刷新页面重试');
+            mapSelect.value = '全图';
+            const defaultItem = lineInfo['全图'] || { zh: '' };
+            infoText.textContent = defaultItem.zh || '';
+            // 尝试加载全图
+            pre.src = 'images/全图.png';
+        };
+
+        // 启动预加载（如果已经缓存，onload 将同步触发）
+        pre.src = newSrc;
     });
 
     // ========== 图片加载失败处理 ==========
@@ -234,8 +255,8 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('当前线路图加载失败，已自动切换为全图，请刷新页面重试');
     // 重置选择框为全图
     mapSelect.value = '全图';
-    const defaultItem = lineInfo['全图'] || { zh: '', en: '' };
-    infoText.textContent = currentLang === 'en' ? defaultItem.en : defaultItem.zh;
+    const defaultItem = lineInfo['全图'] || { zh: '' };
+    infoText.textContent = defaultItem.zh || '';
     });
 
     // 防止重复触发 fit 的标志（首次稳定布局后做一次 fit）
@@ -329,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMapTransform();
     }
 
-    // ========== 键盘控制缩放/移动（保留扩展功能） ==========
+// ====键盘控制缩放/移动====
     window.addEventListener('keydown', function(e) {
         // 避免输入框等场景触发，仅在非焦点状态生效
         if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
@@ -350,12 +371,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     posY += 20;
                     updateMapTransform();
                     break;
-                case 'ArrowLeft': // 左移
-                    posX -= 20;
-                    updateMapTransform();
-                    break;
                 case 'ArrowRight': // 右移
                     posX += 20;
+                    updateMapTransform();
+                    break;
+                case 'ArrowLeft': // 左移
+                    posX -= 20;
                     updateMapTransform();
                     break;
                 case 'Escape': // 重置
@@ -366,7 +387,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
     console.log('线网示意页面脚本加载完成');
 });
-

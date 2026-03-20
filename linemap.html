@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>服务器轨道交通一览</title>
+    <title>线网示意</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- 统一头部 -->
     <header class="site-header">
         <div class="header-container">
             <div class="logo-area">
@@ -30,12 +29,12 @@
                     <li class="nav-item"><a href="moreinfo.html" class="nav-link">更多信息</a></li>
                 </ul>
             </nav>
-            <div class="header-right">
-                <!-- 预留扩展 -->
-            </div>
+            <!-- <div class="header-right">
+                预留扩展
+            </div> -->
         </div>
 
-    <!-- 下拉选项栏-->
+<!-- 下拉选项栏-->
     <div class="dropdown-bar">
         <div class="dropdown-container">
             <select class="map-select" id="mapSelect">
@@ -50,8 +49,7 @@
         </div>
     </div>
     </header>
-
-    <!-- 图片展示区域：核心交互区-->
+<!-- 图片展示区域-->
     <div class="map-container" id="mapContainer">
         <img src="images/全图.png" alt="服务器轨道交通线网图" class="subway-map" id="subwayMap">
         <div class="control-buttons">
@@ -60,8 +58,7 @@
             <button class="control-btn" id="reset">⟳</button>
         </div>
     </div>
-
-    <!-- 信息弹窗 -->
+<!-- 信息弹窗 -->
     <div class="info-modal" id="infoModal">
         <div class="modal-content">
             <button class="close-btn" id="closeBtn">&times;</button>
@@ -70,16 +67,20 @@
                 <!-- Content injected via JS -->
             </div>
             <div class="modal-footer">
-                <p data-i18n="contact">信息提供: <a href="https://github.com/LIYV6" target="_blank">LIYV6</a> + <a href="https://github.com/frankniubi" target="_blank">Frank Lau</a></p>
+                <p data-i18n="contact">信息提供: 
+                    <a href="https://github.com/LIYV6" target="_blank" style="color: #0000ee; text-decoration: underline">
+                        Yv Li</a> + 
+                    <a href="https://github.com/frankniubi" target="_blank" style="color: #0000ee; text-decoration: underline">
+                        Frank Lau</a>
+                </p>
                 <p style="margin-top: 0.5rem; opacity: 0.8; font-size: 0.75rem;"></p>
             </div>
         </div>
     </div>
-
     <script src="js/linemap.js"></script>
     <script src="js/main.js"></script>
 
-    <!-- 统一页脚（从首页复制）
+<!--页脚
     <footer class="main-footer">
         <div class="container" style="max-width:1200px; margin:0 auto; padding:20px;">
             <div class="footer-nav-grid">
@@ -119,7 +120,7 @@
                 </div>
             </div>
             <div class="footer-divider"></div>
-            版权与合规信息区域：包含版权声明、合规链接
+版权与合规信息区域：包含版权声明、合规链接
             <div class="footer-copyright">
                 <p>© 2026 服务器交通信息展示处 版權所有</p>
                 <div class="copyright-links">

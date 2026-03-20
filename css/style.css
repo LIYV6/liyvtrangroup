@@ -1,271 +1,43 @@
-/* ==========================================
-   全局样式重置与主题变量
-   作用：统一浏览器默认样式，定义全局主题，一键修改配色/尺寸
-   ========================================== */
-/*
-    style.css - 组织/清理版
-    说明：已合并重复的 reset、合并 modal、移除未在 HTML/JS 中引用的旧汉堡样式（.site-hamburger/.site-nav-menu），
-    并统一 hero 横幅规则。保留移动端使用的 .nav-toggle/.mobile-nav-panel/.mobile-nav-overlay。
-    修改日期：2026-03-19
-*/
-
-/* 全局重置 */
+/*style.css修改日期：2026-03-19*/
+/*全局样式重置与主题变量，作用：统一浏览器默认样式，定义全局主题，一键修改配色/尺寸*/
 * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     background-color: #f5f5f5;
-    /* 保持原有 overflow-x 设置，避免横向滚动 */
+/* 保持原有 overflow-x 设置，避免横向滚动 */
 }
 
-.site-header {
-    background-color: #2c3e50; /* 覆盖原样式的背景色 */
-    color: white;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    height: 100%; /* 使用变量高度 */
-}
-
-.logo-area .home-icon {
-    display: inline-block;
-    color: white;
-    text-decoration: none;
-}
-
-.main-nav .nav-list {
-    display: flex;
-    list-style: none;
-    gap: 24px;
-}
-
-.nav-item .nav-link {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s;
-}
-
-.nav-item .nav-link:hover {
-    color: #3498db;
-}
-
-.header-right .lang-link {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-/* 下拉选项栏样式  */
-.dropdown-bar {
-    background-color: #2c3e50;
-    height: 36px; /* 稍微变窄，避免遮挡下方内容 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dropdown-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 360px; /* 缩窄下拉栏占用宽度 */
-    max-width: 90%;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 6px 8px;
-    border-radius: 6px;
-}
-
-.map-select {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    min-width: 160px;
-    outline: none;
-    background-color: white;
-}
-
-.info-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: none;
-    background-color: #3498db;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.info-btn:hover {
-    background-color: #2980b9;
-}
-
-/* 地图容器样式 */
-.map-container {
-    position: relative;
-    width: 100vw;
-    /* 减少对额外变量的依赖，确保在不同页面中图片可见 */
-    height: calc(100vh - var(--header-height) - 40px);
-    overflow: hidden;
-    background-color: #eaeaea;
-}
-
-.subway-map {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: grab;
-    transition: transform 0.1s ease;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.subway-map:active {
-    cursor: grabbing;
-}
-
-/* 控制按钮样式 */
-.control-buttons {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.control-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 4px;
-    border: none;
-    background-color: rgba(44, 62, 80, 0.8);
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.control-btn:hover {
-    background-color: rgba(44, 62, 80, 1);
-}
-
-/* 信息弹窗样式 */
-.info-modal {
-    /* 信息弹窗：单一、合并后的定义，页面中通过添加 .show 控制显示 */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 720px; /* 调整为更适合显示较多文字的宽度 */
-    position: relative;
-}
-
-.close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #666;
-}
-
-.modal-body {
-    padding: 12px 20px 20px 20px;
-    background-color: white;
-    border-radius: 0 0 8px 8px;
-    margin-top: 8px;
-    width: 100%;
-    max-width: 720px; /* 与 modal-content 保持一致 */
-}
-
-.modal-footer {
-    padding: 16px 20px;
-    background-color: #f5f5f5;
-    border-radius: 0 0 8px 8px;
-    font-size: 14px;
-}
-
-.modal-footer a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-.modal-footer a:hover {
-    text-decoration: underline;
-}
-
-/* 当弹窗显示时确保内容垂直堆叠并居中 */
-.info-modal.show {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.info-modal .modal-footer {
-    max-width: 720px;
-    width: 100%;
-}
-
-/* 根变量：全局主题配置，修改此处可一键更换主题 */
+/*根变量：全局主题配置，修改此处可一键更换主题*/
 :root {
-    /* 上海地铁品牌主色：红色 */
+/*红色 */
     --primary-color: #e60012;
-    /* 功能区背景主色：深蓝色 */
+/*功能区背景主色：深蓝色 */
     --secondary-color: #003366;
-    /* 辅助色：白色（文字/图标） */
+/*辅助色白色文字/图标*/
     --white-color: #ffffff;
-    /* 正文默认色：深灰色 */
+/*正文默认色：深灰色*/
     --text-color: #333333;
-    /* 导航hover高亮色 */
+/*导航hover高亮色*/
     --nav-hover-color: #ffcc00;
-    /* 全局字体：跨平台无衬线字体 */
-    --font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-    /* 头部固定高度，方便布局计算 */
+/*全局字体：跨平台无衬线字体*/
+    --font-family: "Times New Roman", "Arial", sans-serif;
+/*头部固定高度，方便布局计算*/
     --header-height: 60px;
-    /* 功能区固定高度 */
+/*功能区固定高度*/
     --function-height: 120px;
-    /* 预留扩展变量：深色模式配色、圆角、动画时长等 */
+/*预留扩展变量：深色模式配色、圆角、动画时长等*/
 }
 
-html, body {
-    height: 100%;
-}
+html, body {height: 100%;}
 
-/* 确保页面内锚点跳转时不会被固定头部遮挡 */
-[id] {
-    scroll-margin-top: calc(var(--header-height) + 12px);
-}
+/* 确保页面内锚点跳转时不会被固定头部遮挡*/
+[id] {scroll-margin-top: calc(var(--header-height) + 12px);}
 
-/* 全局平滑滚动（页面内锚点/脚本滚动优先） */
+/*全局平滑滚动（页面内锚点/脚本滚动优先）*/
 html { scroll-behavior: smooth; }
 
 body {
@@ -276,30 +48,30 @@ body {
     color: var(--text-color);
     line-height: 1.5;
     overflow-x: hidden;
-    /* 新增：避免内容被固定头部遮挡 */
+    /*避免内容被固定头部遮挡*/
     padding-top: var(--header-height);
 }
 
-/* 清除列表默认样式 */
+/*清除列表默认样式*/
 ul, li {
     list-style: none;
 }
 
-/* 统一链接样式 */
+/*统一链接样式*/
 a {
     text-decoration: none;
     color: inherit;
     transition: color 0.3s ease;
 }
 
-/* 图片自适应，避免溢出 */
+/*图片自适应，避免溢出*/
 img {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-/* 清除按钮默认样式 */
+/*清除按钮默认样式*/
 button {
     border: none;
     background: none;
@@ -308,23 +80,20 @@ button {
     transition: all 0.3s ease;
 }
 
-/* 使页面主体（main）在可用空间中伸展，保证页脚位于视口底部 */
+/*使页面main在可用空间中伸展，保证页脚位于视口底部 */
 main {
     flex: 1 0 auto;
     display: block;
 }
 
-/* 清除输入框默认样式 */
+/*清除输入框默认样式*/
 input {
     font-family: inherit;
     outline: none;
     border: none;
 }
 
-/* ==========================================
-   头部导航样式
-   作用：固定在页面顶部，层级最高，保证在banner上方显示
-   ========================================== */
+/* 头部导航样式作用：固定在页面顶部，层级最高，保证在banner上方显示*/
 .site-header {
     width: 100%;
     height: var(--header-height);
@@ -351,7 +120,7 @@ input {
     position: relative; /* 允许内部绝对定位汉堡按钮 */
 }
 
-/* 左侧logo区域 */
+/*左侧logo区域*/
 .logo-area {
     display: flex;
     align-items: center;
@@ -365,11 +134,11 @@ input {
     width: 44px;
     height: 44px;
     border-radius: 6px;
-    line-height: 0; /* 避 svg 垂直偏移 */
+    line-height: 0; /*避 svg垂直偏移*/
 }
 
 .home-icon svg {
-    display: block; /* 修复响应时 svg 偏离 */
+    display: block; /*修复响应时 svg 偏离*/
     width: 22px;
     height: 22px;
 }
@@ -379,7 +148,7 @@ input {
 }
 
 
-/* 主导航菜单 */
+/*主导航菜单*/
 .main-nav {
     flex: 1;
     display: flex;
@@ -390,7 +159,7 @@ input {
     display: flex;
     align-items: center;
     gap: 28px;
-    /* 允许主导航在宽度不足时换行到多行 */
+/*允许主导航在宽度不足时换行到多行*/
     flex-wrap: nowrap; /* 默认不换行，媒体查询中修改为 wrap */
 }
 
@@ -400,16 +169,14 @@ input {
     position: relative;
 }
 
-/* 导航交互样式（hover/active/underline） */
+/*导航交互样式（hover/active/underline）*/
 .nav-link.active { background: #ff8a00; color: #fff; }
 .nav-link::after{ content: ''; position: absolute; bottom:0; left:0; width:0; height:2px; background:var(--nav-hover-color); transition: width 0.3s ease; }
 .nav-link:hover{ color: var(--nav-hover-color); }
 .nav-link:hover::after{ width:100%; }
 
-/* ==========================
-   移动端导航（当前项目使用 .nav-toggle + .mobile-nav-panel）
-   说明：在窄屏时隐藏主导航，显示右侧汉堡按钮（使用 .nav-toggle），点击展开右侧滑出菜单
-   ========================== */
+/* 移动端导航（当前项目使用 .nav-toggle + .mobile-nav-panel）
+ 说明：在窄屏时隐藏主导航，显示右侧汉堡按钮（使用 .nav-toggle），点击展开右侧滑出菜单*/
 
 .nav-toggle{ display: none; background:none; color:var(--white-color); font-size:22px; line-height:1; width:44px; height:44px; border-radius:6px; }
 
@@ -431,16 +198,11 @@ input {
 @media (max-width:420px){ .mobile-nav-panel{ width:86vw; } }
 
 
-/* 注意：旧版 .site-hamburger / .site-nav-menu 规则已移除，因为当前模板使用 .nav-toggle + .mobile-nav-panel 组合实现移动端导航。
-    如需恢复旧方案，可参考项目历史记录。 */
-
-/* ==========================================
-   主视觉横幅区样式
-   作用：全屏大图展示，适配不同屏幕尺寸
-   ========================================== */
+/*注意：当前模板使用 .nav-toggle + .mobile-nav-panel 组合实现移动端导航*/
+/*主视觉横幅区样式作用：全屏大图展示，适配不同屏幕尺寸*/
 .hero-banner {
     width: 100%;
-    /* 占据整个视口高度，减去固定头部高度，确保大图“覆盖一个屏幕” */
+/*占据整个视口高度，减去固定头部高度，确保大图“覆盖一个屏幕” */
     height: calc(100vh - var(--header-height));
     position: relative;
     overflow: hidden;
@@ -460,11 +222,11 @@ input {
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain; /* 保证整张图完整可见 */
+    object-fit: contain; /*保证整张图完整可见*/
     display: block;
 }
 
-/* 站点标注：右下角定位 */
+/*站点标注：右下角定位*/
 .banner-label {
     position: absolute;
     right: 40px;
@@ -476,10 +238,7 @@ input {
     border-radius: 4px;
 }
 
-/* ==========================================
-   核心功能区样式
-   作用：覆盖在banner底部，仅保留快捷功能按钮组
-   ========================================== */
+/*核心功能区样式作用：覆盖在banner底部，仅保留快捷功能按钮组*/
 .function-wrapper {
     width: 100%;
     height: var(--function-height);
@@ -496,7 +255,7 @@ input {
     z-index: 99;
 }
 
-/* 快捷功能按钮组（全屏居中） */
+/*快捷功能按钮组（全屏居中）*/
 .shortcut-functions {
     width: 100%;
     display: flex;
@@ -538,10 +297,7 @@ input {
     white-space: nowrap;
 }
 
-/* ==========================================
-   右侧悬浮按钮样式
-   作用：固定在页面右侧，垂直居中，层级最高
-   ========================================== */
+/*右侧悬浮按钮样式作用：固定在页面右侧，垂直居中，层级最高*/
 .float-buttons {
     position: fixed;
     right: 20px;
@@ -571,7 +327,7 @@ input {
     transform: scale(1.05);
 }
 
-/* 汉堡菜单按钮（移动端） */
+/*汉堡菜单按钮（移动端）*/
 .nav-toggle {
     display: none;
     background: none;
@@ -582,7 +338,7 @@ input {
     cursor: pointer;
 }
 
-/* 当导航打开时的样式 */
+/*当导航打开时的样式*/
 .nav-list.open {
     display: flex;
     flex-direction: column;
@@ -596,7 +352,7 @@ input {
     z-index: 999;
 }
 
-/* 小屏时调整页脚为单列堆叠并增加内边距 */
+/*小屏时调整页脚为单列堆叠并增加内边距*/
 @media (max-width: 768px) {
     .nav-toggle { display: inline-block; }
     .main-nav { display: block; }
@@ -611,29 +367,26 @@ input {
     .container[style] { padding-left: 16px; padding-right: 16px; }
 }
 
-/* ==========================================
-   预留扩展区域样式
-   作用：为后续新增内容模块提供基础样式
-   ========================================== */
+/* 预留扩展区域样式作用：为后续新增内容模块提供基础样式*/
 .content-extend {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 12px 12px; /* 进一步减少外层间距 */
+    padding: 12px 12px; /*进一步减少外层间距*/
 }
 
-/* 卡片化每个分区 */
+/*卡片化每个分区*/
 .section-card {
     background: #fff;
     border-radius: 8px;
     padding: 10px 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 6px; /* 小间隙，卡片不相连 */
+    margin-bottom: 6px; /*小间隙，卡片不相连*/
 }
 
-/* 减少 section 之间间距 */
+/*减少 section 之间间距*/
 .page-section {
-    margin-bottom: 6px; /* 更紧凑 */
+    margin-bottom: 6px; /*更紧凑*/
 }
 
 .banner-img { display: block; }
@@ -644,16 +397,9 @@ input {
 
 /* Hero 横幅：统一规则，优先保证图片完整可见（object-fit: contain）并占据视口-头部高度 */
 /* Hero 横幅：覆盖整个视口（cover），并在 header 之下显示，保持页面其余内容不被遮挡 */
-
-/* Hero 横幅：使用背景图作为整页背景并保留顶部 3/4 空白区域
-   设计说明：
-   - 背景图由 .hero-banner 的 background-image 提供，使用 cover 保证视觉填充。
-   - 通过 .hero-inner 将可见交互区域限制在底部 25%（1/4），顶部 75% 为预留空白区。
-   - 使用 margin-top 负值补偿 body 的 padding-top（header 固定高度）。
-*/
 .hero-banner {
     width: 100%;
-    height: calc(100vh); /* 首屏高度占满视口（不包含 header，因为 body 有 padding-top） */
+    height: calc(100vh); /*首屏高度占满视口（不包含 header，因为 body 有 padding-top）*/
     margin-top: 0;
     min-height: 480px;
     position: relative;
@@ -668,10 +414,10 @@ input {
     display: block;
 }
 
-/* Scroll snap：使首屏与次屏在竖直滚动时产生平滑对齐过渡 */
+/*Scroll snap：使首屏与次屏在竖直滚动时产生平滑对齐过渡*/
 #snap-container {
     scroll-snap-type: y mandatory;
-    scroll-behavior: smooth; /* 现代浏览器平滑滚动 */
+    scroll-behavior: smooth; /*现代浏览器平滑滚动*/
 }
 
 .snap-page {
@@ -679,14 +425,14 @@ input {
     min-height: calc(100vh - var(--header-height));
 }
 
-/* 微交互：为从第一屏滑动到第二屏添加淡入过渡 */
+/*微交互：为从第一屏滑动到第二屏添加淡入过渡*/
 #second-screen { animation: fadeInUp 420ms ease both; }
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* hero-inner 固定在底部 25% 区域，用于放置标注/按钮/CTA 等 */
+/*hero-inner 固定在底部25%区域，用于放置标注/按钮/CTA等*/
 .hero-inner {
     position: absolute;
     left: 0;
@@ -700,23 +446,18 @@ input {
     padding: 0 20px 20px 20px;
     z-index: 2;
 }
-
 /* 可选遮罩与标注 */
 .hero-banner .banner-overlay { position: absolute; inset:0; background: rgba(0,0,0,0.0); z-index:1; }
 .hero-banner .banner-label { color:#fff; background: rgba(0,0,0,0.35); padding:6px 10px; border-radius:4px; }
 
-/* 轮播功能已移除：原有 .carousel-slides/.slide 规则已删除 */
-/* 导航自适应：中等宽度行为已恢复为不换行，窄屏隐藏主导航仅显示汉堡按钮 */
-/* 保持导航不换行（默认行为，窄屏通过其他 media query 隐藏主导航） */
+/*导航自适应：中等宽度行为已恢复为不换行，窄屏隐藏主导航仅显示汉堡按钮*/
+/*保持导航不换行（默认行为，窄屏通过其他 media query 隐藏主导航）*/
 @media (max-width: 900px) {
     .main-nav { display: none; }
     .nav-toggle { display: inline-flex; }
 }
 
-/* ==========================================
-   页脚样式
-   作用：展示版权、备案信息，预留友情链接扩展
-   ========================================== */
+/*页脚样式作用：展示版权、备案信息，预留友情链接扩展*/
 .main-footer {
     width: 100%;
     background-color: #f0f0f0; /* 灰色背景 */
@@ -724,7 +465,7 @@ input {
     padding: 32px 0;
 }
 
-/* 页脚导航网格布局：4列等宽 */
+/*页脚导航网格布局：4列等宽*/
 .footer-nav-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -732,7 +473,7 @@ input {
     margin-bottom: 40px;
 }
 
-/* 单个导航列标题样式 */
+/*单个导航列标题样式*/
 .footer-nav-column h4 {
     font-size: 16px;
     font-weight: 600;
@@ -740,7 +481,7 @@ input {
     color: var(--mtr-text-white);
 }
 
-/* 导航链接列表样式 */
+/*导航链接列表样式*/
 .footer-nav-column ul {
     display: flex;
     flex-direction: column;
@@ -753,16 +494,16 @@ input {
     transition: color 0.2s ease;
 }
 
-/* 全站：页脚链接颜色统一为深灰，便于阅读（可全局覆盖） */
+/*全站：页脚链接颜色统一为深灰，便于阅读（可全局覆盖）*/
 .main-footer .footer-nav-column ul li a { color: #555; }
 
-/* 链接hover效果：变白，显示下划线 */
+/*链接hover效果：变白，显示下划线*/
 .footer-nav-column ul li a:hover {
     color: var(--mtr-text-white);
     text-decoration: underline;
 }
 
-/* 页脚分隔线 */
+/*页脚分隔线*/
 .footer-divider {
     width: 100%;
     height: 1px;
@@ -770,7 +511,7 @@ input {
     margin-bottom: 25px;
 }
 
-/* 版权信息区域样式 */
+/*版权信息区域样式*/
 .footer-copyright {
     display: flex;
     justify-content: space-between;
@@ -784,7 +525,7 @@ input {
     color: #999999;
 }
 
-/* 版权链接样式 */
+/*版权链接样式*/
 .copyright-links {
     display: flex;
     gap: 20px;
@@ -801,36 +542,26 @@ input {
     text-decoration: underline;
 }
 
-/* ========================================
-   响应式适配样式
-   作用：针对不同屏幕尺寸调整布局，保证移动端、平板端的浏览体验，适配主流设备尺寸
-   ======================================== */
-/* 旧的 .site-hamburger/.site-nav-menu 已在本次重构中移除（见顶部说明） */
-
-/* 响应式（手机）调优：版权区堆叠 */
+/*响应式适配样式作用：针对不同屏幕尺寸调整布局，保证移动端、平板端的浏览体验，适配主流设备尺寸*/
+/* 响应式（手机）调优：版权区堆叠*/
 @media (max-width: 768px) {
     .footer-copyright { flex-direction: column; align-items: flex-start; }
     .copyright-links { flex-wrap: wrap; }
 }
-
-/* 小屏手机适配：屏幕宽度小于480px时生效 */
+/*小屏手机适配：屏幕宽度小于480px时生效*/
 @media (max-width: 480px) {
-    /* 页脚导航：2列改1列 */
+/*页脚导航：2列改1列*/
     .footer-nav-grid {
         grid-template-columns: 1fr;
     }
-    /* 顶部快捷链接：只保留联系我们 */
+/*顶部快捷链接*/
     .top-quick-links a:nth-child(n+2) {
         display: none;
     }
 }
-
-/* ==========================================
-   新闻/通告/建设规划 列表页面样式
-   作用：顶部导航不变，列表从上到下排列，使用浅色细分割线，页脚右上方显示分页
-   ========================================== */
+/*新闻/通告/建设规划 列表页面样式作用：顶部导航不变，列表从上到下排列，使用浅色细分割线，页脚右上方显示分页*/
 .news-page {
-    padding: 20px 0 60px; /* 顶部由固定头部覆盖，无需额外 margin-top */
+    padding: 20px 0 60px; /*顶部由固定头部覆盖，无需额外 margin-top*/
 }
 .page-container {
     width: 100%;
@@ -874,7 +605,7 @@ input {
 .pagination {
     margin-top: 18px;
     display: flex;
-    justify-content: flex-end; /* 右侧对齐 */
+    justify-content: flex-end; /*右侧对齐*/
 }
 .pagination-right {
     background: transparent;
@@ -883,7 +614,7 @@ input {
     padding: 6px 8px;
 }
 
-/* 在页脚右侧上方显示分页小组件（针对页面底部） */
+/*在页脚右侧上方显示分页小组件（针对页面底部）*/
 .site-footer + .pagination {
     position: relative;
 }
@@ -894,18 +625,15 @@ input {
 }
 
 
-/* =========================================
-   线网示意页面 - 下拉选项栏样式
-   作用：和导航栏同高同色，包含下拉框+信息按钮
-= */
+/*线网示意页面-下拉选项栏样式作用：和导航栏同高同色，包含下拉框+信息按钮*/
 .dropdown-bar {
     width: 100%;
-    height: var(--header-height); /* 和导航栏同高 */
-    background: rgba(0, 0, 0, 0.2); /* 和导航栏同色 */
+    height: var(--header-height); /*和导航栏同高*/
+    background: rgba(0, 0, 0, 0.2); /*和导航栏同色*/
     position: fixed;
-    top: var(--header-height); /* 位于导航栏下方 */
+    top: var(--header-height); /*位于导航栏下方*/
     left: 0;
-    z-index: 998; /* 低于导航栏，高于图片区 */
+    z-index: 998; /*低于导航栏，高于图片区*/
 }
 
 .dropdown-container {
@@ -916,12 +644,12 @@ input {
     padding: 0 40px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* 下拉框左，i按钮右 */
+    justify-content: space-between; /*下拉框左，i按钮右*/
 }
 
-/* 下拉选项框：支持7汉字+20字母显示 */
+/*下拉选项框：支持7汉字+20字母显示*/
 .map-select {
-    width: 300px; /* 7汉字≈70px + 20字母≈140px + 内边距≈90px */
+    width: 350px; /* 7汉字≈70px + 20字母≈140px + 内边距≈90px */
     height: 40px;
     padding: 0 15px;
     font-size: 16px;
@@ -932,7 +660,7 @@ input {
     color: #333;
 }
 
-/* 信息按钮：i图标 */
+/*信息按钮：i图标*/
 .info-btn {
     width: 40px;
     height: 40px;
@@ -950,34 +678,32 @@ input {
     color: white;
 }
 
-/* ==========================================
-   线网示意页面 - 图片展示区域样式
-   ========================================== */
+/*线网示意页面-图片展示区域样式*/
 .map-container {
     width: 100%;
-    height: calc(100vh - var(--header-height) * 2); /* 减去导航栏+下拉栏高度 */
+    height: calc(100vh - var(--header-height) * 2); /*减去导航栏+下拉栏高度*/
     position: fixed;
-    top: calc(var(--header-height) * 2); /* 位于下拉栏下方 */
+    top: calc(var(--header-height) * 2); /*位于下拉栏下方*/
     left: 0;
-    overflow: hidden; /* 隐藏超出区域的图片 */
+    overflow: hidden; /*隐藏超出区域的图片*/
     background: #f5f5f5;
 }
 
-/* 地铁线网图：初始居中，支持拖拽缩放 */
+/*地铁线网图：初始居中，支持拖拽缩放*/
 .subway-map {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    cursor: grab; /* 抓手样式 */
-    transition: transform 0.05s ease; /* 拖拽平滑过渡 */
+    cursor: grab; /*抓手样式*/
+    transition: transform 0.05s ease; /*拖拽平滑过渡*/
 }
 
 .subway-map:active {
-    cursor: grabbing; /* 按住时抓手样式 */
+    cursor: grabbing; /*按住时抓手样式*/
 }
 
-/* 缩放控制按钮：右下角垂直排列 */
+/*缩放控制按钮：右下角垂直排列*/
 .control-buttons {
     position: absolute;
     bottom: 20px;
@@ -1004,11 +730,9 @@ input {
     transform: scale(1.05);
 }
 
-/* ==========================================
-   信息弹窗样式
-   ========================================== */
+/*信息弹窗样式*/
 .info-modal {
-    display: none; /* 默认隐藏 */
+    display: none; /*默认隐藏*/
     position: fixed;
     top: 0;
     left: 0;
@@ -1016,6 +740,14 @@ input {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+/*点击触发时显示模态框并居中内容*/
+.info-modal.show {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }

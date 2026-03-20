@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!--基础元数据-->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 页面标题-->
-    <title>服务器轨道交通一览</title>
-    <!-- 引入外部样式文件，统一管理页面样式 -->
+<!--页面标题-->
+    <title>鲤鱼交通集团</title>
+<!--引入外部样式文件，统一管理页面样式-->
     <link rel="stylesheet" href="css/style.css">
-    <!-- 预留扩展位：可引入图标库、额外CSS文件 -->
+<!--预留扩展位：可引入额外CSS文件-->
 </head>
 <body>
-    <!-- 页面头部：主导航、顶部功能区，层级最高 -->
+<!-- 页面头部：主导航、顶部功能-->
     <header class="site-header">
-        <div class="header-container"><!-- 左侧：首页快捷入口-->
-
-            <div class="logo-area"><!-- 首页图标 -->
-
+        <div class="header-container">
+<!-- 左侧：首页快捷入口-->
+            <div class="logo-area">
+<!-- 首页图标 -->
                 <a href="index.html" class="home-icon">
                     <svg width="20" viewBox="0 0 24 24" height="20"  fill="none" stroke="white" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -25,33 +24,25 @@
                     </svg>
                 </a>
             </div>
-
-            <!-- 汉堡菜单切换按钮-->
-            <button class="nav-toggle" aria-label="菜单">☰</button>
-
-            <!-- 主导航菜单 -->
-            <nav class="main-nav">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="notices.html" class="nav-link">通知公告</a></li>
-                    <li class="nav-item"><a href="lineplan.html" class="nav-link">线路建设</a></li>
-                    <li class="nav-item"><a href="linemap.html" class="nav-link">线网示意</a></li>
-                    <li class="nav-item"><a href="https://mtr-query.mcbar.cc" target="_blank" class="nav-link">路线导航</a></li>
-                    <li class="nav-item"><a href="aboutcompany.html" class="nav-link">关于公司</a></li>
-                    <li class="nav-item"><a href="moreinfo.html" class="nav-link">更多信息</a></li>
-                </ul>
-            </nav>
-
-            <!-- 顶部右侧-->
-            
-
-        
-    </div>
+<!--汉堡菜单切换按钮-->
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+<!--导航菜单-->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="notices.html" class="nav-link">通知公告</a></li>
+                <li class="nav-item"><a href="lineplan.html" class="nav-link">线路建设</a></li>
+                <li class="nav-item"><a href="linemap.html" class="nav-link">线网示意</a></li>
+                <li class="nav-item"><a href="https://mtr-query.mcbar.cc" target="_blank" class="nav-link">路线导航</a></li>
+                <li class="nav-item"><a href="aboutcompany.html" class="nav-link">关于公司</a></li>
+                <li class="nav-item"><a href="moreinfo.html" class="nav-link">更多信息</a></li>
+            </ul>
+        </nav>
+<!-- 顶部右侧-->
+        </div>
     </header>
-
-    <!-- 主视觉横幅区：已移入 snap 容器的第一屏，使用 <img> 展示静态封面 -->
-
-    <!-- 为实现“向下滑动到第二页”的体验，使用 scroll-snap 容器包裹 hero 与下方内容 -->
+<!-- 主视觉横幅区-->
     <main id="snap-container">
+<!-- 第一页 -->
         <section id="first-screen" class="snap-page">
             <div class="hero-banner" id="section-banner">
                 <img src="images/abcd.png" alt="站点横幅" class="banner-img">
@@ -61,10 +52,11 @@
                     </div>
                 </div>
             </div>
+            <!-- 预留底部功能区 -->
         </section>
-
+<!-- 第二页 -->
         <section id="second-screen" class="snap-page">
-            <!-- 原始六个区块：按导航顺序排列 -->
+<!--原始六个区块-->
             <main>
                 <section id="section-notices" class="page-section">
                     <div class="content-extend">
@@ -128,20 +120,17 @@
                         </div>
                     </div>
                 </section>
+
             </main>
         </section>
     </main>
+<!-- 预留扩展区：可添加内容 -->
+    <!--<section class="content-extend"></section>-->
 
-    <!-- 预留扩展区：可添加内容 -->
-    <!--<section class="content-extend"></section>
-
-    
-    <!-- 页脚区 -->
-
-<!-- 网站页脚：包含辅助导航链接、版权信息、合规声明、联系方式等全站底部信息，是全站辅助导航的核心区域 -->
+<!--网站页脚：全站底部信息-->
     <footer class="main-footer">
         <div class="container" style="max-width:1200px; margin:0 auto; padding:20px;">
-            <!-- 页脚导航链接区域：分多列展示不同板块的辅助链接，与官网结构保持一致 -->
+<!--页脚导航链接区域-->
             <div class="footer-nav-grid">
                 <div class="footer-nav-column">
                     <h4>通知公告</h4>
@@ -178,9 +167,9 @@
                     </ul>
                 </div>
             </div>
-            <!-- 页脚分隔线 -->
+<!-- 页脚分隔线 -->
             <div class="footer-divider"></div>
-            <!-- 版权与合规信息区域：包含版权声明、合规链接 -->
+<!--版权与合规信息区域-->
             <div class="footer-copyright">
                 <p>© 2026 鲤鱼交通集团 版权所有</p>
                 <div class="copyright-links">
@@ -191,9 +180,8 @@
             </div>
         </div>
     </footer>
-
-    <!-- 引入外部交互脚本，统一管理逻辑 -->
+<!-- 引入外部交互脚本，统一管理逻辑 -->
     <script src="js/main.js"></script>
-    <!-- 预留扩展位：可引入统计脚本、地图插件、额外JS文件 -->
+<!-- 预留扩展位：可引入统计脚本、地图插件、额外JS文件 -->
 </body>
 </html>

@@ -133,8 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // 平滑滚动/其他通用交互可在此添加（轻量、无副作用）
 });
 
-    /* 轮播功能已移除；保留移动导航与其他交互逻辑 */
-
 // 首屏自动滚动补充：在非触摸设备上，向下快速滚动会平滑跳转到第二屏
 (function () {
     if ('ontouchstart' in window) return; // 触摸设备使用原生滚动
