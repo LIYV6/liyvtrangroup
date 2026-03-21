@@ -135,28 +135,72 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 首屏自动滚动补充：在非触摸设备上，向下快速滚动会平滑跳转到第二屏
 (function () {
-    if ('ontouchstart' in window) return; // 触摸设备使用原生滚动
-    const snapContainer = document.getElementById('snap-container');
+    // 双向有阻力的平滑翻页处理（非触摸设备）
+    if ('ontouchstart' in window) return;
+    const first = document.getElementById('first-screen');
     const second = document.getElementById('second-screen');
-    if (!snapContainer || !second) return;
+    if (!first || !second) return;
 
-    let locked = false; // 防止重复触发
-    let deltaAccum = 0;
-    const THRESHOLD = 80; // 累积滚动阈值（像素），可调
+    let locked = false;
+    let acc = 0;
+    const THRESH = 70; // 触发阈值
+    const RESIST = 0.8; // 阻力系数
 
-    function onWheel(e) {
-        if (locked) return;
-        // 只在首屏时触发
-        if (window.scrollY > 10) return;
-        deltaAccum += e.deltaY;
-        if (deltaAccum > THRESHOLD) {
-            locked = true;
-            second.scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => { locked = false; deltaAccum = 0; }, 800);
-        }
-        // 轻微反向滚动清零
-        if (deltaAccum < 0) deltaAccum = 0;
+    function isNearTop(el) {
+        const r = el.getBoundingClientRect();
+        return Math.abs(r.top) < 12;
     }
 
-    window.addEventListener('wheel', onWheel, { passive: true });
+    // 平滑滚动函数（requestAnimationFrame + easeOutCubic），用于上下翻页
+    function smoothScrollTo(targetY, duration = 700, cb) {
+        const startY = window.scrollY || window.pageYOffset;
+        const diff = targetY - startY;
+        const start = performance.now();
+        function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+        function step(now) {
+            const elapsed = now - start;
+            const t = Math.min(1, elapsed / duration);
+            window.scrollTo(0, Math.round(startY + diff * easeOutCubic(t)));
+            if (t < 1) requestAnimationFrame(step); else if (typeof cb === 'function') cb();
+        }
+        requestAnimationFrame(step);
+    }
+
+    function onWheel(e) {
+        // 如果正在动画中，阻止默认以避免干扰
+        if (locked) { e.preventDefault(); return; }
+        const d = e.deltaY;
+
+        // 启动向下从第一页到第二页
+        if (isNearTop(first) && d > 0) {
+            acc = acc * RESIST + d;
+            if (acc > THRESH) {
+                // 阻止浏览器默认滚动，使用自定义平滑动画
+                e.preventDefault();
+                locked = true;
+                // 使用自定义平滑滚动到第二页（第一页->第二页）
+                const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 60;
+                const targetYdown = second.getBoundingClientRect().top + window.scrollY - headerH;
+                smoothScrollTo(targetYdown, 700, function () { locked = false; acc = 0; });
+            }
+            return;
+        }
+
+        // 启动向上从第二页回到第一页（移除阻力，立即触发平滑滚动）
+        if (isNearTop(second) && d < 0) {
+            e.preventDefault();
+            if (!locked) {
+                locked = true;
+                const headerH2 = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 60;
+                const targetYup = first.getBoundingClientRect().top + window.scrollY - headerH2;
+                smoothScrollTo(targetYup, 700, function () { locked = false; acc = 0; });
+            }
+            return;
+        }
+
+        acc *= 0.5;
+    }
+
+    // 注意：listener 设置 passive: false 以便在触发滚动时调用 preventDefault()
+    window.addEventListener('wheel', onWheel, { passive: false });
 })();
